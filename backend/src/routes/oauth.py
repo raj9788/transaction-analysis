@@ -17,11 +17,20 @@ from oauth.sessions import end_session, start_session
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
+def _callback_url(request: Request) -> str:
+    forwarded_host = request.headers.get("x-forwarded-host")
+    if forwarded_host:
+        host = forwarded_host.split(",")[0].strip()
+        proto = request.headers.get("x-forwarded-proto", "https").split(",")[0].strip()
+        return f"{proto}://{host}/api/v1/auth/google/callback"
+    return str(request.url_for("google_callback"))
+
+
 @router.get("/google/login")
 async def google_login(request: Request):
-    redirect_uri = request.url_for("google_callback")
+    redirect_uri = _callback_url(request)
     return await oauth.google.authorize_redirect(
-        request, str(redirect_uri)
+        request, redirect_uri
     )
 
 
