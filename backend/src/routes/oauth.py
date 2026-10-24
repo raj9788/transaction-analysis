@@ -30,9 +30,10 @@ async def google_callback(request: Request, db: DbSession):
     try:
         token = await oauth.google.authorize_access_token(request)
     except OAuthError as exc:
+        desc = exc.description or exc.error or str(exc)
         raise HTTPException(
             status_code=400,
-            detail="Google authentication failed",
+            detail=f"Google authentication failed: {desc}",
         ) from exc
 
     profile = token.get("userinfo")

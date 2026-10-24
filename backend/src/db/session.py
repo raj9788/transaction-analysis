@@ -10,15 +10,18 @@ from .db import Base
 
 
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./conversation.db")
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
-engine = create_engine(
-    DATABASE_URL,
-    connect_args=(
-        {"check_same_thread": False}
-        if DATABASE_URL.startswith("sqlite")
-        else {}
-    ),
-)
+is_sqlite = DATABASE_URL.startswith("sqlite")
+engine_kwargs = {}
+if is_sqlite:
+    engine_kwargs["connect_args"] = {"check_same_thread": False}
+else:
+    engine_kwargs["pool_pre_ping"] = True
+    engine_kwargs["pool_recycle"] = 300
+
+engine = create_engine(DATABASE_URL, **engine_kwargs)
 
 if DATABASE_URL.startswith("sqlite"):
 

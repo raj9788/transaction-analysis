@@ -58,4 +58,6 @@ cd frontend && npm test
 - [Backend guide](backend/README.md): setup, API endpoints, LLM design, and behaviour notes
 - [Frontend guide](frontend/README.md): routes, scripts, design notes, and live browser tests
 - [Backend specification](backend/docs/implementation-spec.md): the original design the code was built from
+- [Step 1: Deploy Backend (Render + Neon)](DEPLOY_BACKEND.md): step-by-step free backend deployment
+- [Step 2: Deploy Frontend (Vercel)](DEPLOY_FRONTEND.md): step-by-step free frontend deployment with API proxy
 
