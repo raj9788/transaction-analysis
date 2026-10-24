@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://ta-coach-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/docs",
+      "destination": "https://ta-coach-backend.onrender.com/docs"
+    },
+    {
+      "source": "/openapi.json",
+      "destination": "https://ta-coach-backend.onrender.com/openapi.json"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
